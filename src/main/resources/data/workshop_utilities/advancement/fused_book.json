@@ -1,0 +1,33 @@
+{
+  "parent": "workshop_utilities:disenchant_item",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:fused_enchanted_book"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.fused_book.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.fused_book.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:fused_enchanted_book"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 50
+  }
+}

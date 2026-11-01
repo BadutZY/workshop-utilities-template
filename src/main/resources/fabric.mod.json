@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "workshop_utilities",
+  "version": "${version}",
+  "name": "Workshop Utilities",
+  "description": "Workshop tables for players: an Uncrafting Table (the reverse of a crafting table), a Dis-Enchanting Table (separates enchantments from items), an Upgrade Table (applies enchantments and upgrades Backpacks) and an Upgrade Enchanting Table (creates new enchanted books), plus wearable Backpacks with modules, an Elytra slot, and 20+ custom enchantments. Optional REI and JEI support.",
+  "authors": ["BadutZY"],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/workshop_utilities/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.workshoputilities.WorkshopUtilitiesMod"],
+    "client": ["com.workshoputilities.client.WorkshopUtilitiesClient"],
+    "rei_client": ["com.workshoputilities.client.compat.rei.ArcaneReiPlugin"],
+    "jei_mod_plugin": ["com.workshoputilities.client.compat.jei.ArcaneJeiPlugin"]
+  },
+  "mixins": [
+    "workshop_utilities.mixins.json",
+    { "config": "workshop_utilities.client.mixins.json", "environment": "client" }
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "roughlyenoughitems": "*",
+    "jei": "*"
+  }
+}

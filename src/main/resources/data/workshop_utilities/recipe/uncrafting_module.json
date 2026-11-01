@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "T": {
+      "item": "workshop_utilities:uncrafting_table"
+    }
+  },
+  "pattern": [
+    "IAI",
+    "RTR",
+    "IAI"
+  ],
+  "result": {
+    "id": "workshop_utilities:uncrafting_module",
+    "count": 1
+  }
+}

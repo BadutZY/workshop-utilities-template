@@ -1,0 +1,199 @@
+{
+  "parent": "workshop_utilities:armor_enchant",
+  "display": {
+    "icon": {
+      "id": "minecraft:netherite_chestplate"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.armor_collector.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.armor_collector.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ender_blind": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:ender_blind"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "snow_walker": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:snow_walker"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "frozen_ward": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:frozen_ward"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "silent_step": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:silent_step"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "piglin_protection": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:piglin_protection"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "water_breathing": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:water_breathing"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "swim_fast": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:swim_fast"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "fire_resistant": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:fire_resistant"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "night_vision": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:night_vision"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "hunger_saver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:hunger_saver"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "double_jump": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:double_jump"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 250
+  }
+}

@@ -1,0 +1,386 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/enchanted_book"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.005
+      },
+      "model": "enchantbookicons:item/protection"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.015
+      },
+      "model": "enchantbookicons:item/fire_protection"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.025
+      },
+      "model": "enchantbookicons:item/feather_falling"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.035
+      },
+      "model": "enchantbookicons:item/blast_protection"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.045
+      },
+      "model": "enchantbookicons:item/projectile_protection"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.055
+      },
+      "model": "enchantbookicons:item/respiration"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.065
+      },
+      "model": "enchantbookicons:item/aqua_affinity"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.075
+      },
+      "model": "enchantbookicons:item/thorns"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.085
+      },
+      "model": "enchantbookicons:item/depth_strider"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.095
+      },
+      "model": "enchantbookicons:item/frost_walker"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.105
+      },
+      "model": "enchantbookicons:item/soul_speed"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.115
+      },
+      "model": "enchantbookicons:item/swift_sneak"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.125
+      },
+      "model": "enchantbookicons:item/sharpness"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.135
+      },
+      "model": "enchantbookicons:item/smite"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.145
+      },
+      "model": "enchantbookicons:item/bane_of_arthropods"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.155
+      },
+      "model": "enchantbookicons:item/knockback"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.165
+      },
+      "model": "enchantbookicons:item/fire_aspect"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.175
+      },
+      "model": "enchantbookicons:item/looting"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.185
+      },
+      "model": "enchantbookicons:item/sweeping_edge"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.195
+      },
+      "model": "enchantbookicons:item/efficiency"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.205
+      },
+      "model": "enchantbookicons:item/silk_touch"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.215
+      },
+      "model": "enchantbookicons:item/unbreaking"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.225
+      },
+      "model": "enchantbookicons:item/fortune"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.235
+      },
+      "model": "enchantbookicons:item/power"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.245
+      },
+      "model": "enchantbookicons:item/punch"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.255
+      },
+      "model": "enchantbookicons:item/flame"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.265
+      },
+      "model": "enchantbookicons:item/infinity"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.275
+      },
+      "model": "enchantbookicons:item/luck_of_the_sea"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.285
+      },
+      "model": "enchantbookicons:item/lure"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.295
+      },
+      "model": "enchantbookicons:item/loyalty"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.305
+      },
+      "model": "enchantbookicons:item/impaling"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.315
+      },
+      "model": "enchantbookicons:item/riptide"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.325
+      },
+      "model": "enchantbookicons:item/channeling"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.335
+      },
+      "model": "enchantbookicons:item/multishot"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.345
+      },
+      "model": "enchantbookicons:item/quick_charge"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.355
+      },
+      "model": "enchantbookicons:item/piercing"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.365
+      },
+      "model": "enchantbookicons:item/density"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.375
+      },
+      "model": "enchantbookicons:item/breach"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.385
+      },
+      "model": "enchantbookicons:item/wind_burst"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.395
+      },
+      "model": "enchantbookicons:item/lunge"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.405
+      },
+      "model": "enchantbookicons:item/mending"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.415
+      },
+      "model": "enchantbookicons:item/binding_curse"
+    },
+    {
+      "predicate": {
+        "enchantbookicons:icon": 0.425
+      },
+      "model": "enchantbookicons:item/vanishing_curse"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:infinite_durability": 1
+      },
+      "model": "workshop_utilities:item/infinite_durability_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:ender_blind": 1
+      },
+      "model": "workshop_utilities:item/ender_blind_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:snow_walker": 1
+      },
+      "model": "workshop_utilities:item/snow_walker_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:frozen_ward": 1
+      },
+      "model": "workshop_utilities:item/frozen_ward_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:silent_step": 1
+      },
+      "model": "workshop_utilities:item/silent_step_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:piglin_protection": 1
+      },
+      "model": "workshop_utilities:item/piglin_protection_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:vein_miner": 1
+      },
+      "model": "workshop_utilities:item/vein_miner_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:thunder_slash": 1
+      },
+      "model": "workshop_utilities:item/thunder_slash_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:anti_gravity": 1
+      },
+      "model": "workshop_utilities:item/anti_gravity_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:woodcutter": 1
+      },
+      "model": "workshop_utilities:item/woodcutter_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:more_harvest": 1
+      },
+      "model": "workshop_utilities:item/more_harvest_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:water_breathing": 1
+      },
+      "model": "workshop_utilities:item/water_breathing_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:swim_fast": 1
+      },
+      "model": "workshop_utilities:item/swim_fast_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:fire_resistant": 1
+      },
+      "model": "workshop_utilities:item/fire_resistant_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:unlimited": 1
+      },
+      "model": "workshop_utilities:item/unlimited_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:night_vision": 1
+      },
+      "model": "workshop_utilities:item/night_vision_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:lifesteal": 1
+      },
+      "model": "workshop_utilities:item/lifesteal_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:hunger_saver": 1
+      },
+      "model": "workshop_utilities:item/hunger_saver_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:auto_smelt": 1
+      },
+      "model": "workshop_utilities:item/auto_smelt_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:double_jump": 1
+      },
+      "model": "workshop_utilities:item/double_jump_book"
+    }
+  ]
+}

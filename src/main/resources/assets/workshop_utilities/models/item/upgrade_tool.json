@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "workshop_utilities:item/upgrade_tool"
+  }
+}

@@ -1,0 +1,367 @@
+{
+  "parent": "workshop_utilities:upgrade_table",
+  "display": {
+    "icon": {
+      "id": "minecraft:diamond_pickaxe"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.enchant_any.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.enchant_any.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "infinite_durability": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:infinite_durability"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "unlimited": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:unlimited"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "thunder_slash": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:thunder_slash"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "lifesteal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:lifesteal"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "vein_miner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:vein_miner"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "auto_smelt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:auto_smelt"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "woodcutter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:woodcutter"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "more_harvest": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:more_harvest"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "anti_gravity": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:anti_gravity"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ender_blind": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:ender_blind"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "snow_walker": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:snow_walker"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "frozen_ward": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:frozen_ward"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "silent_step": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:silent_step"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "piglin_protection": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:piglin_protection"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "water_breathing": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:water_breathing"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "swim_fast": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:swim_fast"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "fire_resistant": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:fire_resistant"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "night_vision": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:night_vision"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "hunger_saver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:hunger_saver"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "double_jump": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:double_jump"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "infinite_durability",
+      "unlimited",
+      "thunder_slash",
+      "lifesteal",
+      "vein_miner",
+      "auto_smelt",
+      "woodcutter",
+      "more_harvest",
+      "anti_gravity",
+      "ender_blind",
+      "snow_walker",
+      "frozen_ward",
+      "silent_step",
+      "piglin_protection",
+      "water_breathing",
+      "swim_fast",
+      "fire_resistant",
+      "night_vision",
+      "hunger_saver",
+      "double_jump"
+    ]
+  ],
+  "rewards": {
+    "experience": 20
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "parent": "workshop_utilities:tool_enchant",
+  "display": {
+    "icon": {
+      "id": "minecraft:netherite_axe"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.master_toolsmith.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.master_toolsmith.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vein_miner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:vein_miner"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "auto_smelt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:auto_smelt"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "woodcutter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:woodcutter"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "more_harvest": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:more_harvest"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "anti_gravity": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:anti_gravity"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 200
+  }
+}

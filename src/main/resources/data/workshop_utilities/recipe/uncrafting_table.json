@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": { "item": "minecraft:crafting_table" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "pattern": [
+    " I ",
+    "ICI",
+    " I "
+  ],
+  "result": { "id": "workshop_utilities:uncrafting_table", "count": 1 }
+}

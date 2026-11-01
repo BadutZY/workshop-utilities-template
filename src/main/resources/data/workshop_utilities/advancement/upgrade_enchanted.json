@@ -1,0 +1,33 @@
+{
+  "parent": "workshop_utilities:upgrade_table",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:upgrade_enchanted"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.upgrade_enchanted.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.upgrade_enchanted.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:upgrade_enchanted"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 15
+  }
+}

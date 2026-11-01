@@ -1,0 +1,112 @@
+{
+  "parent": "workshop_utilities:enchant_any",
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_pickaxe"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.tool_enchant.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.tool_enchant.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "vein_miner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:vein_miner"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "auto_smelt": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:auto_smelt"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "woodcutter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:woodcutter"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "more_harvest": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:more_harvest"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "anti_gravity": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "workshop_utilities:anti_gravity"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "vein_miner",
+      "auto_smelt",
+      "woodcutter",
+      "more_harvest",
+      "anti_gravity"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  }
+}

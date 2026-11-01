@@ -1,0 +1,91 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'maven-publish'
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// REI (Roughly Enough Items), plus the Cloth Config / Basic Math libraries its API needs
+	maven {
+		name = "Shedaniel"
+		url = "https://maven.shedaniel.me/"
+	}
+	// Architectury (transitive dependency of REI)
+	maven {
+		name = "Architectury"
+		url = "https://maven.architectury.dev/"
+	}
+	// JEI (Just Enough Items)
+	maven {
+		name = "BlameJared"
+		url = "https://maven.blamejared.com/"
+	}
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"workshop_utilities" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+// Make sure the client source set (where the REI/JEI plugins live) also sees main's compile-only dependencies (the REI/JEI APIs).
+sourceSets.client.compileClasspath += sourceSets.main.compileClasspath
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// ---- OPTIONAL integration: Roughly Enough Items (REI) and Just Enough Items (JEI) ----
+	// modCompileOnly = used at compile time only. Neither is bundled in the mod jar and neither is required at
+	// runtime; the plugins only load if the player actually installs REI/JEI (see the entrypoints in fabric.mod.json).
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+	// Use the full JEI jar (intermediary-named, so Loom can remap it to Yarn, and it already contains the mezz.jei.api package).
+	// Do not use the "-common-api" / "-fabric-api" artifacts: they use Mojang names and do not match Yarn.
+	modCompileOnly "mezz.jei:jei-${project.jei_mc_version}-fabric:${project.jei_version}"
+
+	// To try the integration live in runClient, run Gradle with -PtestRei=true or -PtestJei=true
+	// (pick one; JEI for 1.21.1 needs Minecraft 1.21.1, so change minecraft_version/yarn_mappings first if needed).
+	if (project.hasProperty('testRei')) {
+		modLocalRuntime "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+	}
+	if (project.hasProperty('testJei')) {
+		modLocalRuntime "mezz.jei:jei-${project.jei_mc_version}-fabric:${project.jei_version}"
+	}
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 21
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+publishing {
+	publications {
+		create("mavenJava", MavenPublication) {
+			from components.java
+		}
+	}
+}

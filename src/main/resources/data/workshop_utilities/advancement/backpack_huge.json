@@ -1,0 +1,33 @@
+{
+  "parent": "workshop_utilities:backpack_big",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:huge_backpack"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.backpack_huge.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.backpack_huge.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:huge_backpack"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 150
+  }
+}

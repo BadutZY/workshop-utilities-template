@@ -1,0 +1,26 @@
+{
+  "parent": "workshop_utilities:module_bed",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:bed_module"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.sleep_anywhere.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.sleep_anywhere.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 30
+  }
+}

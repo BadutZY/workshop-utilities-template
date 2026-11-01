@@ -1,0 +1,128 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/enchanted_book"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "workshop_utilities:infinite_durability": 1
+      },
+      "model": "workshop_utilities:item/infinite_durability_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:ender_blind": 1
+      },
+      "model": "workshop_utilities:item/ender_blind_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:snow_walker": 1
+      },
+      "model": "workshop_utilities:item/snow_walker_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:frozen_ward": 1
+      },
+      "model": "workshop_utilities:item/frozen_ward_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:silent_step": 1
+      },
+      "model": "workshop_utilities:item/silent_step_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:piglin_protection": 1
+      },
+      "model": "workshop_utilities:item/piglin_protection_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:vein_miner": 1
+      },
+      "model": "workshop_utilities:item/vein_miner_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:thunder_slash": 1
+      },
+      "model": "workshop_utilities:item/thunder_slash_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:anti_gravity": 1
+      },
+      "model": "workshop_utilities:item/anti_gravity_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:woodcutter": 1
+      },
+      "model": "workshop_utilities:item/woodcutter_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:more_harvest": 1
+      },
+      "model": "workshop_utilities:item/more_harvest_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:water_breathing": 1
+      },
+      "model": "workshop_utilities:item/water_breathing_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:swim_fast": 1
+      },
+      "model": "workshop_utilities:item/swim_fast_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:fire_resistant": 1
+      },
+      "model": "workshop_utilities:item/fire_resistant_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:unlimited": 1
+      },
+      "model": "workshop_utilities:item/unlimited_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:night_vision": 1
+      },
+      "model": "workshop_utilities:item/night_vision_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:lifesteal": 1
+      },
+      "model": "workshop_utilities:item/lifesteal_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:hunger_saver": 1
+      },
+      "model": "workshop_utilities:item/hunger_saver_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:auto_smelt": 1
+      },
+      "model": "workshop_utilities:item/auto_smelt_book"
+    },
+    {
+      "predicate": {
+        "workshop_utilities:double_jump": 1
+      },
+      "model": "workshop_utilities:item/double_jump_book"
+    }
+  ]
+}

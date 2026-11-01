@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "workshop_utilities:disenchanting_table",
+    "workshop_utilities:upgrade_table",
+    "workshop_utilities:upgrade_enchanting_table"
+  ]
+}

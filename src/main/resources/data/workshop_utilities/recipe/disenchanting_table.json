@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": { "item": "minecraft:book" },
+    "L": { "item": "minecraft:lapis_lazuli" },
+    "G": { "item": "minecraft:grindstone" }
+  },
+  "pattern": [
+    " B ",
+    "LGL",
+    " L "
+  ],
+  "result": { "id": "workshop_utilities:disenchanting_table", "count": 1 }
+}

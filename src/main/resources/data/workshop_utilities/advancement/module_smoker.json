@@ -1,0 +1,33 @@
+{
+  "parent": "workshop_utilities:backpack_small",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:smoker_module"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.module_smoker.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.module_smoker.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:smoker_module"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 15
+  }
+}

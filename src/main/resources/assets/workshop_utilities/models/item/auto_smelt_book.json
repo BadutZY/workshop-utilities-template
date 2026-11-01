@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "workshop_utilities:item/auto_smelt_book"
+  }
+}

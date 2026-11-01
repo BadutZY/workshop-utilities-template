@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": { "item": "workshop_utilities:upgrade_book" },
+    "D": { "item": "minecraft:diamond" },
+    "O": { "item": "minecraft:obsidian" }
+  },
+  "pattern": [
+    " B ",
+    "DOD",
+    "OOO"
+  ],
+  "result": { "id": "workshop_utilities:upgrade_enchanting_table", "count": 1 }
+}

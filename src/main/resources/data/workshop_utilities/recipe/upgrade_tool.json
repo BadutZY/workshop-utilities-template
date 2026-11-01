@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "U": {
+      "item": "workshop_utilities:upgrade_enchanted"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "III",
+    "IUI",
+    " S "
+  ],
+  "result": {
+    "id": "workshop_utilities:upgrade_tool",
+    "count": 1
+  }
+}

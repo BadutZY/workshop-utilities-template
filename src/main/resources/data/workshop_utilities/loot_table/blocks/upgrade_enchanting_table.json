@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [ { "condition": "minecraft:survives_explosion" } ],
+      "entries": [ { "type": "minecraft:item", "name": "workshop_utilities:upgrade_enchanting_table" } ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "workshop_utilities:blocks/upgrade_enchanting_table"
+}

@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "package": "com.workshoputilities.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AnvilScreenHandlerMixin",
+    "EndermanEntityMixin",
+    "PowderSnowBlockMixin",
+    "LivingEntityMixin",
+    "ServerWorldMixin",
+    "EntityMixin",
+    "SculkTriggerBlockMixin",
+    "PiglinBrainMixin",
+    "FallingBlockMixin",
+    "ItemStackMixin",
+    "EnchantmentMixin",
+    "ServerPlayerInteractionManagerMixin",
+    "PlayerEntityMixin",
+    "PlayerInventoryMixin",
+    "PlayerScreenHandlerMixin",
+    "ServerPlayNetworkHandlerMixin",
+    "PlayerBackpackSlotMixin",
+    "PlayerHungerMixin",
+    "BlockDropsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

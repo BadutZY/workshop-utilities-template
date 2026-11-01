@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": { "item": "minecraft:amethyst_shard" },
+    "L": { "item": "minecraft:lapis_lazuli" },
+    "D": { "item": "minecraft:diamond" },
+    "B": { "item": "minecraft:book" }
+  },
+  "pattern": [
+    "ALA",
+    "DBD",
+    "ALA"
+  ],
+  "result": { "id": "workshop_utilities:upgrade_book", "count": 1 }
+}

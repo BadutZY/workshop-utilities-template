@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "K": {
+      "item": "minecraft:dried_kelp"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:smoker"
+    }
+  },
+  "pattern": [
+    "KRK",
+    "ISI",
+    "KRK"
+  ],
+  "result": {
+    "id": "workshop_utilities:smoker_module",
+    "count": 1
+  }
+}

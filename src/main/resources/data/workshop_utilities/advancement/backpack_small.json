@@ -1,0 +1,33 @@
+{
+  "parent": "workshop_utilities:root",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:small_backpack"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.backpack_small.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.backpack_small.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:small_backpack"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 10
+  }
+}

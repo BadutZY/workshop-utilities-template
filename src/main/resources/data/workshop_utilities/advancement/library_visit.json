@@ -1,0 +1,26 @@
+{
+  "parent": "workshop_utilities:upgrade_book",
+  "display": {
+    "icon": {
+      "id": "minecraft:enchanted_book"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.library_visit.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.library_visit.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 40
+  }
+}

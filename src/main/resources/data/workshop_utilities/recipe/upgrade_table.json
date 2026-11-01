@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "U": {
+      "item": "workshop_utilities:upgrade_enchanted"
+    },
+    "A": {
+      "item": "minecraft:anvil"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "DUD",
+    " A ",
+    "III"
+  ],
+  "result": {
+    "id": "workshop_utilities:upgrade_table",
+    "count": 1
+  }
+}

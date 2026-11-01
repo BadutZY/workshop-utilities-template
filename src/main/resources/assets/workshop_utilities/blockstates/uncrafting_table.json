@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "workshop_utilities:block/uncrafting_table" }
+  }
+}

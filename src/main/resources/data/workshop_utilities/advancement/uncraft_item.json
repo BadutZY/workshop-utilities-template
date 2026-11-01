@@ -1,0 +1,26 @@
+{
+  "parent": "workshop_utilities:uncrafting_table",
+  "display": {
+    "icon": {
+      "id": "minecraft:crafting_table"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.uncraft_item.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.uncraft_item.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 15
+  }
+}

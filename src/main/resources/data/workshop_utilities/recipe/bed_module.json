@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:phantom_membrane"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "tag": "minecraft:beds"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "RBR",
+    "IPI"
+  ],
+  "result": {
+    "id": "workshop_utilities:bed_module",
+    "count": 1
+  }
+}

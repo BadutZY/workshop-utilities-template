@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:upgrade_table"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.root.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.root.desc"
+    },
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

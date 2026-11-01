@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": { "item": "minecraft:amethyst_shard" },
+    "L": { "item": "minecraft:lapis_lazuli" },
+    "D": { "item": "minecraft:diamond" }
+  },
+  "pattern": [
+    "ALA",
+    "LDL",
+    "ALA"
+  ],
+  "result": { "id": "workshop_utilities:upgrade_enchanted", "count": 1 }
+}

@@ -1,0 +1,83 @@
+{
+  "parent": "workshop_utilities:module_crafting",
+  "display": {
+    "icon": {
+      "id": "workshop_utilities:upgrade_enchanted"
+    },
+    "title": {
+      "translate": "advancement.workshop_utilities.fully_modular.title"
+    },
+    "description": {
+      "translate": "advancement.workshop_utilities.fully_modular.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "crafting_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:crafting_module"
+          }
+        ]
+      }
+    },
+    "furnace_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:furnace_module"
+          }
+        ]
+      }
+    },
+    "blast_furnace_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:blast_furnace_module"
+          }
+        ]
+      }
+    },
+    "smoker_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:smoker_module"
+          }
+        ]
+      }
+    },
+    "uncrafting_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:uncrafting_module"
+          }
+        ]
+      }
+    },
+    "bed_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:bed_module"
+          }
+        ]
+      }
+    }
+  },
+  "rewards": {
+    "experience": 150
+  }
+}
