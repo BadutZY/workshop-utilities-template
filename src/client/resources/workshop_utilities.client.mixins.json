@@ -12,7 +12,10 @@
     "SlotAccessor",
     "CreativeInventoryScreenMixin",
     "LightmapTextureManagerMixin",
-    "GameRendererMixin"
+    "GameRendererMixin",
+    "ScreenInvoker",
+    "HandledScreenPanelMixin",
+    "VanillaScreenBackgroundMixin"
   ],
   "injectors": {
     "defaultRequire": 1

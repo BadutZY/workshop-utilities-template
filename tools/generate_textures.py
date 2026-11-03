@@ -592,14 +592,4 @@ player_inventory(px)
 sprites(px)
 save(img, os.path.join(GUI_DIR, "uncrafting_table.png"))
 
-# --- Dis-Enchanting GUI
-# Input (kiri) -> 1 panah -> Output (kanan), semua rata dan simetris.
-img, px = gui_canvas()
-slot(px, 36, 22)    # item ter-enchant
-slot(px, 36, 48)    # book
-slot(px, 122, 22)   # hasil item
-slot(px, 122, 48)   # hasil enchanted book
-arrow(px, 76, 36)   # satu panah di tengah
-player_inventory(px)
-sprites(px)         # ikon hantu buku digambar screen hanya saat slot book kosong
-save(img, os.path.join(GUI_DIR, "disenchanting_table.png"))
+# --- Dis-Enchanting GUI: dibuat tools/generate_disenchanting_gui.py (gaya grindstone; slot dan fungsi tidak berubah).

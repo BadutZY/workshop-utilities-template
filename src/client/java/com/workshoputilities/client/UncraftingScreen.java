@@ -3,7 +3,6 @@ package com.workshoputilities.client;
 import com.workshoputilities.WorkshopUtilitiesMod;
 import com.workshoputilities.screen.UncraftingScreenHandler;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.PressableWidget;
@@ -11,7 +10,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class UncraftingScreen extends HandledScreen<UncraftingScreenHandler> {
+public class UncraftingScreen extends PanelHandledScreen<UncraftingScreenHandler> {
 	private static final Identifier TEXTURE =
 			Identifier.of(WorkshopUtilitiesMod.MOD_ID, "textures/gui/container/uncrafting_table.png");
 
@@ -62,6 +61,8 @@ public class UncraftingScreen extends HandledScreen<UncraftingScreenHandler> {
 
 	@Override
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+		// Panel samping (backpack / equipment) digambar lebih dulu; texture GUI di bawah menutup sambungannya.
+		drawPanels(context);
 		context.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
 	}
 

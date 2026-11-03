@@ -1,6 +1,6 @@
 """
-Texture generator for the 6 Backpack module items (16x16): crafting_module, furnace_module, blast_furnace_module,
-smoker_module, uncrafting_module, bed_module.
+Texture generator for the 7 Backpack module items (16x16): crafting_module, furnace_module, blast_furnace_module,
+smoker_module, uncrafting_module, bed_module, tools_holder_module.
 Run from the project root:  python tools/generate_module_textures.py   (requires Pillow)
 
 Shape: a module chip/plate with a colored frame per type, golden rivets in the corners, golden connector pins at the
@@ -26,6 +26,8 @@ FRAMES = {
     "uncrafting": (rgb(0x0C2024), rgb(0x7FD6CE), rgb(0x2C6E70), rgb(0x12262A), rgb(0x9FFFF0)),
     # malam: bingkai biru indigo
     "bed": (rgb(0x0E1030), rgb(0x8C96E6), rgb(0x3A3E8A), rgb(0x14173C), rgb(0xC8D0FF)),
+    # gudang perkakas: bingkai hijau zaitun
+    "tools": (rgb(0x121C0E), rgb(0x9CCB6A), rgb(0x4A7A2C), rgb(0x16220F), rgb(0xD8FF9A)),
 }
 
 EMBLEMS = {
@@ -96,6 +98,18 @@ EMBLEMS = {
         "b......b"],
         {"s": rgb(0xC8D0FF), "Y": rgb(0xFFEC96), "w": rgb(0xF4F4F4), "R": rgb(0xC02828),
          "r": rgb(0x8E1C1C), "B": rgb(0x8A5A2A), "b": rgb(0x5A3A1A)}),
+    # pedang (kiri: bilah, pelindung emas, gagang kayu) dan pickaxe (kanan: kepala besi, gagang kayu)
+    "tools": ([
+        "..b.PPPP",
+        "..b.P.hP",
+        "..b...h.",
+        "..B...h.",
+        "..B...h.",
+        ".ggg..h.",
+        "..h...h.",
+        "..g...h."],
+        {"b": rgb(0xE8EEF4), "B": rgb(0xA8B4C8), "g": rgb(0xF0C040), "h": rgb(0x9A6A34),
+         "P": rgb(0xC8D4E0)}),
 }
 
 def make(kind):
@@ -170,7 +184,7 @@ def make_uncrafting():
 
 names = {"crafting": "crafting_module", "furnace": "furnace_module",
          "blast": "blast_furnace_module", "smoker": "smoker_module", "uncrafting": "uncrafting_module",
-         "bed": "bed_module"}
+         "bed": "bed_module", "tools": "tools_holder_module"}
 if __name__ == "__main__":
     for kind, name in names.items():
         img = make_uncrafting() if kind == "uncrafting" else make(kind)

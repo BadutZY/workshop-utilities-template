@@ -4,7 +4,6 @@ import com.workshoputilities.WorkshopUtilitiesMod;
 import com.workshoputilities.screen.UpgradeTableScreenHandler;
 import com.workshoputilities.upgrade.UpgradeTableLogic;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -17,7 +16,7 @@ import java.util.List;
  * Texture digambar oleh tools/generate_upgrade_table_textures.py (posisi slot sama dengan UpgradeTableScreenHandler).
  * Keterangan status (apa yang kurang / kenapa tidak valid) dihitung dari isi slot lewat {@link UpgradeTableLogic}.
  */
-public class UpgradeTableScreen extends HandledScreen<UpgradeTableScreenHandler> {
+public class UpgradeTableScreen extends PanelHandledScreen<UpgradeTableScreenHandler> {
 	private static final Identifier TEXTURE =
 			Identifier.of(WorkshopUtilitiesMod.MOD_ID, "textures/gui/container/upgrade_table.png");
 
@@ -53,6 +52,8 @@ public class UpgradeTableScreen extends HandledScreen<UpgradeTableScreenHandler>
 
 	@Override
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+		// Panel samping (backpack / equipment) digambar lebih dulu; texture GUI di bawah menutup sambungannya.
+		drawPanels(context);
 		context.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
 
 		// Slot item dan bahan dibiarkan kosong polos (dipakai untuk tool/enchanted book maupun Backpack).

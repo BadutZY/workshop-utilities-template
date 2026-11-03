@@ -80,6 +80,7 @@ public final class ModItemGroups {
                         entries.add(ModItems.SMOKER_MODULE);
                         entries.add(ModItems.UNCRAFTING_MODULE);
                         entries.add(ModItems.BED_MODULE);
+                        entries.add(ModItems.TOOLS_HOLDER_MODULE);
                     })
                     .build());
 

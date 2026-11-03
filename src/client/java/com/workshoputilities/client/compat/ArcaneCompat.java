@@ -274,6 +274,7 @@ public final class ArcaneCompat {
 		list.add(info(List.of(new ItemStack(ModItems.SMOKER_MODULE)), "smoker_module", 1));
 		list.add(info(List.of(new ItemStack(ModItems.UNCRAFTING_MODULE)), "uncrafting_module", 1));
 		list.add(info(List.of(new ItemStack(ModItems.BED_MODULE)), "bed_module", 1));
+		list.add(info(List.of(new ItemStack(ModItems.TOOLS_HOLDER_MODULE)), "tools_holder_module", 1));
 
 		// Satu halaman per enchanted book buatan mod. Teksnya memakai terjemahan tooltip yang sudah ada
 		// (tooltip.workshop_utilities.<nama>.desc.1 / .desc.2 / .applies), jadi tidak ada teks ganda yang harus dirawat.

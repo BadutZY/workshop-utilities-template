@@ -75,6 +75,16 @@
           }
         ]
       }
+    },
+    "tools_holder_module": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "workshop_utilities:tools_holder_module"
+          }
+        ]
+      }
     }
   },
   "rewards": {

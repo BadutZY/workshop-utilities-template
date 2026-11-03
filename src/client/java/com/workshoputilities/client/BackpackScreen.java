@@ -2,6 +2,7 @@ package com.workshoputilities.client;
 
 import com.workshoputilities.ModItems;
 import com.workshoputilities.WorkshopUtilitiesMod;
+import com.workshoputilities.backpack.BackpackModuleData;
 import com.workshoputilities.backpack.BackpackTier;
 import com.workshoputilities.client.mixin.SlotAccessor;
 import com.workshoputilities.screen.BackpackScreenHandler;
@@ -28,8 +29,10 @@ import java.util.List;
  * tab panah; klik untuk membuka panelnya (grid crafting, furnace, atau uncrafting) di sebelah kanan dock. Tombol kecil di atas dock
  * menyembunyikan / menampilkan seluruh dock; statusnya diingat selama game berjalan.
  *
- * Di kiri GUI ada dock samping (1 slot untuk Bed Module) dengan tombol Sleep di bawahnya: tidur sampai pagi tanpa bed
- * dan tanpa mengubah spawn point. Dock ini ikut disembunyikan / ditampilkan oleh tombol dock di kanan.
+ * Di kiri GUI ada dock samping (slot Bed Module dengan tombol Sleep di bawahnya: tidur sampai pagi tanpa bed dan tanpa
+ * mengubah spawn point), dan tepat di bawahnya dock Tools Holder (slot modul + tombol show / hide). Bila Tools Holder
+ * terpasang dan ditampilkan, rak 7 slot untuk tools / senjata terbuka di sebelah kiri dock-nya. Semua ini ikut
+ * disembunyikan / ditampilkan oleh tombol dock di kanan.
  *
  * Layout ramping dan memanjang ke atas: tiap tier punya paling banyak 12 kolom (lihat BackpackTier), inventory pemain
  * berada di tengah di bawah grid tas. Bila tinggi layar tidak cukup untuk semua baris (mis. GUI Scale besar),
@@ -97,6 +100,16 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 	private static final int LEFT_H = DOCK_PAD + CELL_H + 2 + SLEEP_H + 4;
 	private static final int BED_COLOR = 0xFF8C96E6;
 
+	// ---- dock Tools Holder (tepat di bawah dock Bed: slot modul + tombol show/hide) dan rak 7 slot di sebelah kirinya
+	/** Bagian atas dock Tools Holder; berbagi satu garis tepi dengan dasar dock Bed. */
+	private static final int TOOLS_Y = DOCK_Y + LEFT_H + 1;
+	private static final int TOOLS_COLS = 2;
+	private static final int TOOLS_ROWS = 4;
+	private static final int RACK_W = TOOLS_COLS * 18 + 12;
+	private static final int RACK_H = 16 + TOOLS_ROWS * 18 + 6;
+	private static final int TOOLS_COLOR = 0xFF9CCB6A;
+	private static final Text TOOLS_TITLE = Text.translatable("gui.workshop_utilities.backpack.tools.title");
+
 	/** Status tampilan dock, diingat antar pembukaan GUI. */
 	private static boolean dockVisible = true;
 	private static int openType = -1;
@@ -108,6 +121,8 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 	private UncraftArrowButton uncraftNext;
 	private SleepButton sleepButton;
 	private int lastSleepState = -1;
+	private ToolsButton toolsButton;
+	private int lastToolsState = -1;
 	private int lastMask = -1;
 
 	private final BackpackTier tier;
@@ -169,6 +184,8 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		this.addDrawableChild(this.uncraftNext);
 		this.sleepButton = new SleepButton(() -> click(BackpackScreenHandler.BUTTON_SLEEP));
 		this.addDrawableChild(this.sleepButton);
+		this.toolsButton = new ToolsButton(() -> click(BackpackScreenHandler.BUTTON_TOOLS_TOGGLE));
+		this.addDrawableChild(this.toolsButton);
 		for (int i = 0; i < this.moduleTabs.length; i++) {
 			this.moduleTabs[i] = new ModuleTab(i);
 			this.addDrawableChild(this.moduleTabs[i]);
@@ -202,6 +219,10 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		}
 		areas.add(new int[] {this.x + this.backgroundWidth, this.y + TOGGLE_Y, extrasWidth(), bottom - TOGGLE_Y});
 		areas.add(new int[] {this.x - LEFT_W, this.y + DOCK_Y, LEFT_W, LEFT_H});
+		areas.add(new int[] {this.x - LEFT_W, this.y + TOOLS_Y, LEFT_W, LEFT_H});
+		if (rackVisible()) {
+			areas.add(new int[] {this.x + rackLeft(), this.y + rackTop(), RACK_W, RACK_H});
+		}
 		return areas;
 	}
 
@@ -215,7 +236,43 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		for (int i = 0; i < BackpackScreenHandler.MODULE_COUNT; i++) {
 			mask = mask * 8 + (this.handler.moduleTypeAt(i) + 1);
 		}
-		return mask * 2 + (this.handler.hasBedModule() ? 1 : 0);
+		mask = mask * 2 + (this.handler.hasBedModule() ? 1 : 0);
+		return mask * 4 + (this.handler.hasToolsHolder() ? 1 : 0) + (this.handler.toolsShown() ? 2 : 0);
+	}
+
+	// ------------------------------------------------------------------ Tools Holder: geometri (relatif panel utama)
+
+	/** True bila rak 7 slot tools sedang terbuka: dock tampil, Tools Holder terpasang, dan pemain memilih menampilkannya. */
+	private boolean rackVisible() {
+		return dockVisible && this.handler.hasToolsHolder() && this.handler.toolsShown();
+	}
+
+	/** Tepi kiri rak; garis tepi kanan rak jatuh tepat di garis tepi kiri dock (seperti panel modul di kanan). */
+	private static int rackLeft() {
+		return -LEFT_W - RACK_W + 1;
+	}
+
+	/** Tepi atas rak; sejajar dengan garis tepi atas dock Tools Holder. */
+	private static int rackTop() {
+		return TOOLS_Y - 1;
+	}
+
+	/** Posisi X item slot tools ke-{@code i} (0..6) relatif panel utama. */
+	private static int toolX(int i) {
+		return rackLeft() + 7 + (i % TOOLS_COLS) * 18;
+	}
+
+	/** Posisi Y item slot tools ke-{@code i} (0..6) relatif panel utama. */
+	private static int toolY(int i) {
+		return rackTop() + 17 + (i / TOOLS_COLS) * 18;
+	}
+
+	/** Lebar yang dibutuhkan di kiri panel utama selama dock ditampilkan (dock Bed / Tools Holder dan rak bila terbuka). */
+	private int leftExtent() {
+		if (!dockVisible) {
+			return 0;
+		}
+		return LEFT_W + (rackVisible() ? RACK_W - 1 : 0);
 	}
 
 	/**
@@ -225,8 +282,8 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 	private void relayout() {
 		int centered = (this.width - this.backgroundWidth) / 2;
 		int overflow = centered + this.backgroundWidth + extrasWidth() - this.width;
-		// Dock samping kiri butuh LEFT_W di sebelah kiri panel utama selama dock ditampilkan.
-		this.x = Math.max(dockVisible ? LEFT_W : 0, overflow > 0 ? centered - overflow : centered);
+		// Dock samping kiri (dan rak tools bila terbuka) butuh ruang di sebelah kiri panel utama selama dock ditampilkan.
+		this.x = Math.max(leftExtent(), overflow > 0 ? centered - overflow : centered);
 
 		int total = BUTTON_KEYS.length * BUTTON_SIZE + (BUTTON_KEYS.length - 1) * BUTTON_GAP;
 		int startX = this.x + this.backgroundWidth - 7 - total;
@@ -261,6 +318,9 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		this.sleepButton.setX(this.x - LEFT_W + 5);
 		this.sleepButton.setY(this.y + DOCK_Y + DOCK_PAD + CELL_H + 2);
 		updateSleepButton();
+		this.toolsButton.setX(this.x - LEFT_W + 5);
+		this.toolsButton.setY(this.y + TOOLS_Y + DOCK_PAD + CELL_H + 2);
+		updateToolsButton();
 		layoutSlots();
 	}
 
@@ -274,6 +334,31 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		if (sleepState() != this.lastSleepState) {
 			updateSleepButton();
 		}
+		if (toolsState() != this.lastToolsState) {
+			updateToolsButton();
+		}
+	}
+
+	/** Gabungan status Tools Holder (terpasang, tampil, jumlah terisi) untuk mendeteksi perubahan tombol / tooltip. */
+	private int toolsState() {
+		return (this.handler.hasToolsHolder() ? 1 : 0) | (this.handler.toolsShown() ? 2 : 0) | (this.handler.toolsUsed() << 2);
+	}
+
+	/** Perbarui status aktif dan tooltip tombol show / hide tools (hanya bila statusnya berubah). */
+	private void updateToolsButton() {
+		this.lastToolsState = toolsState();
+		boolean installed = this.handler.hasToolsHolder();
+		this.toolsButton.visible = dockVisible;
+		this.toolsButton.active = installed;
+		Text title = Text.translatable(this.handler.toolsShown()
+				? "gui.workshop_utilities.backpack.tools.hide" : "gui.workshop_utilities.backpack.tools.show");
+		Text hint = installed
+				? Text.translatable("gui.workshop_utilities.backpack.tools.hint", this.handler.toolsUsed(),
+						BackpackModuleData.TOOL_SLOTS).formatted(net.minecraft.util.Formatting.GRAY)
+				: Text.translatable("gui.workshop_utilities.backpack.tools.need_module")
+						.formatted(net.minecraft.util.Formatting.GRAY);
+		this.toolsButton.setTooltip(Tooltip.of(installed ? title.copy().append(Text.literal("\n")).append(hint)
+				: Text.translatable("gui.workshop_utilities.backpack.tools.title").append(Text.literal("\n")).append(hint)));
 	}
 
 	/** 0 = tidak ada Bed Module, 1 = ada tetapi belum waktunya tidur, 2 = siap dipakai. */
@@ -350,6 +435,13 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		}
 		place(this.handler.slots.get(this.handler.bedSlot()),
 				dockVisible ? -LEFT_W + 7 : OFFSCREEN, dockVisible ? cellTop(0) + 1 : OFFSCREEN);
+		place(this.handler.slots.get(this.handler.toolsHolderSlot()),
+				dockVisible ? -LEFT_W + 7 : OFFSCREEN, dockVisible ? TOOLS_Y + DOCK_PAD + 1 : OFFSCREEN);
+		boolean rack = rackVisible();
+		for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+			place(this.handler.slots.get(this.handler.toolSlot(i)),
+					rack ? toolX(i) : OFFSCREEN, rack ? toolY(i) : OFFSCREEN);
+		}
 		int active = activeType();
 		int px = panelLeft();
 		int py = DOCK_Y;
@@ -396,6 +488,13 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 			return true;
 		}
 		if (rx >= -LEFT_W && rx < 0 && ry >= DOCK_Y && ry < DOCK_Y + LEFT_H) {
+			return false;
+		}
+		if (rx >= -LEFT_W && rx < 0 && ry >= TOOLS_Y - 1 && ry < TOOLS_Y + LEFT_H) {
+			return false;
+		}
+		if (rackVisible() && rx >= rackLeft() && rx < rackLeft() + RACK_W
+				&& ry >= rackTop() && ry < rackTop() + RACK_H) {
 			return false;
 		}
 		int dockHeight = DOCK_PAD + BackpackScreenHandler.MODULE_COUNT * CELL_H;
@@ -594,6 +693,31 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 				context.drawTooltip(this.textRenderer, tip, x, y);
 				return;
 			}
+			if (index == this.handler.toolsHolderSlot()) {
+				List<Text> tip = new ArrayList<>();
+				if (!this.focusedSlot.hasStack()) {
+					tip.add(Text.translatable("gui.workshop_utilities.backpack.side.slot"));
+					tip.add(Text.translatable("gui.workshop_utilities.backpack.side.accepts",
+							ModItems.TOOLS_HOLDER_MODULE.getName()).formatted(net.minecraft.util.Formatting.GRAY));
+					context.drawTooltip(this.textRenderer, tip, x, y);
+					return;
+				}
+				if (!this.focusedSlot.canTakeItems(this.client.player)) {
+					tip.add(this.focusedSlot.getStack().getName());
+					tip.add(Text.translatable("gui.workshop_utilities.backpack.module.busy")
+							.formatted(net.minecraft.util.Formatting.RED));
+					context.drawTooltip(this.textRenderer, tip, x, y);
+					return;
+				}
+			}
+			if (this.handler.isToolSlot(index) && !this.focusedSlot.hasStack()) {
+				List<Text> tip = new ArrayList<>();
+				tip.add(Text.translatable("gui.workshop_utilities.backpack.tools.slot"));
+				tip.add(Text.translatable("gui.workshop_utilities.backpack.tools.accepts")
+						.formatted(net.minecraft.util.Formatting.GRAY));
+				context.drawTooltip(this.textRenderer, tip, x, y);
+				return;
+			}
 			for (int i = 0; i < BackpackScreenHandler.MODULE_COUNT; i++) {
 				if (index != this.handler.moduleSlot(i)) {
 					continue;
@@ -673,12 +797,53 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		}
 	}
 
+	/** Dock Tools Holder di bawah dock Bed: slot modul (garis hijau bila terpasang) dan, bila terbuka, rak 7 slot di kirinya. */
+	private void drawToolsDock(DrawContext context) {
+		drawAttachedLeft(context, TOOLS_Y, LEFT_W, LEFT_H);
+		int ix = -LEFT_W + 7;
+		int iy = TOOLS_Y + DOCK_PAD + 1;
+		slotFrame(context, ix, iy);
+		if (this.handler.hasToolsHolder()) {
+			outline(context, this.x + ix - 1, this.y + iy - 1, 18, 18, TOOLS_COLOR);
+		} else {
+			drawDashed(context, this.x + ix + 1, this.y + iy + 1, 14, 14, 0xFF555555);
+		}
+		if (rackVisible()) {
+			drawToolsRack(context);
+		}
+	}
+
+	/** Rak 7 slot tools: judul, grid 2 x 4 (7 slot), dan sel ke-8 yang menampilkan jumlah slot terisi. */
+	private void drawToolsRack(DrawContext context) {
+		int px = this.x + rackLeft();
+		int py = this.y + rackTop();
+		drawPanel(context, px, py, RACK_W, RACK_H);
+		String title = this.textRenderer.trimToWidth(TOOLS_TITLE.getString(), RACK_W - 14);
+		context.drawText(this.textRenderer, title, px + 7, py + 5, TEXT, false);
+		for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+			slotFrame(context, toolX(i), toolY(i));
+		}
+		// Sel ke-8: kotak cekung gelap berisi "terisi/7", ditulis 75% agar muat di dalam sel 18 px.
+		int cx = px + 6 + (TOOLS_COLS - 1) * 18;
+		int cy = py + 16 + (TOOLS_ROWS - 1) * 18;
+		drawInset(context, cx + 1, cy + 1, 16, 16, 0xFF2B2B2B);
+		String label = this.handler.toolsUsed() + "/" + BackpackModuleData.TOOL_SLOTS;
+		float scale = 0.75F;
+		int labelWidth = Math.round(this.textRenderer.getWidth(label) * scale);
+		context.getMatrices().push();
+		context.getMatrices().translate(cx + 1 + (16 - labelWidth) / 2.0F, cy + 1 + (16 - 8 * scale) / 2.0F + 0.5F, 0.0F);
+		context.getMatrices().scale(scale, scale, 1.0F);
+		context.drawText(this.textRenderer, label, 0, 0, this.handler.toolsUsed() > 0 ? 0xFFE0E0E0 : 0xFF8B8B8B, false);
+		context.getMatrices().pop();
+	}
+
 	private void drawModules(DrawContext context) {
 		drawAttached(context, this.backgroundWidth, TOGGLE_Y, TOGGLE_W, TOGGLE_H);
 		if (!dockVisible) {
 			return;
 		}
 		drawLeftDock(context);
+		drawToolsDock(context);
 		int dockHeight = DOCK_PAD + BackpackScreenHandler.MODULE_COUNT * CELL_H;
 		drawAttached(context, this.backgroundWidth, DOCK_Y, DOCK_W, dockHeight);
 		for (int i = 0; i < BackpackScreenHandler.MODULE_COUNT; i++) {
@@ -957,6 +1122,70 @@ public class BackpackScreen extends HandledScreen<BackpackScreenHandler> {
 		context.fill(x + 5, y + 3, x + 12, y + 6, blanket);
 		context.fill(x + 5, y + 5, x + 12, y + 6, fold);
 		context.fill(x + 2, y + 6, x + 12, y + 8, wood);
+	}
+
+	/**
+	 * Tombol show / hide slot tools di bawah slot Tools Holder: ikon pickaxe mini + panah ke arah rak (panah ke kanan =
+	 * rak akan ditutup, ke kiri = rak akan dibuka). Abu-abu dan tidak bisa diklik bila modulnya belum terpasang.
+	 */
+	private class ToolsButton extends PressableWidget {
+		private final Runnable action;
+
+		ToolsButton(Runnable action) {
+			super(0, 0, SLEEP_W, SLEEP_H, Text.translatable("gui.workshop_utilities.backpack.tools.hide"));
+			this.action = action;
+		}
+
+		@Override
+		public void onPress() {
+			this.action.run();
+		}
+
+		@Override
+		public void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
+			int x = this.getX();
+			int y = this.getY();
+			boolean on = this.active;
+			int base = !on ? 0xFF707070 : (this.isHovered() ? 0xFFA6C8A6 : 0xFF8B8B8B);
+			context.fill(x, y, x + SLEEP_W, y + SLEEP_H, BLACK);
+			context.fill(x + 1, y + 1, x + SLEEP_W - 1, y + SLEEP_H - 1, base);
+			context.fill(x + 1, y + 1, x + SLEEP_W - 1, y + 2, on ? WHITE : 0xFF909090);
+			context.fill(x + 1, y + 1, x + 2, y + SLEEP_H - 1, on ? WHITE : 0xFF909090);
+			context.fill(x + 2, y + SLEEP_H - 2, x + SLEEP_W - 1, y + SLEEP_H - 1, TRACK_DARK);
+			context.fill(x + SLEEP_W - 2, y + 2, x + SLEEP_W - 1, y + SLEEP_H - 1, TRACK_DARK);
+			drawPickaxe(context, x + 4, y + 4, on);
+			// Rak terbuka: panah ke kanan (klik untuk menutup). Rak tertutup: panah ke kiri (klik untuk membuka).
+			drawChevron(context, x + 14, y + 5, BackpackScreen.this.handler.toolsShown(), on ? 0xFF373737 : 0xFF606060);
+		}
+
+		@Override
+		protected void appendClickableNarrations(NarrationMessageBuilder builder) {
+			this.appendDefaultNarrations(builder);
+		}
+	}
+
+	private static final String[] PICKAXE = {
+			".PPPPP.",
+			"P.....P",
+			"...h...",
+			"...h...",
+			"...h...",
+			"...h...",
+			"...h...",
+			"...h..."};
+
+	/** Ikon pickaxe mini 7x8: kepala besi dan gagang kayu; abu-abu bila tombolnya tidak aktif. */
+	private static void drawPickaxe(DrawContext context, int x, int y, boolean on) {
+		int head = on ? 0xFFE4ECF4 : 0xFFA8A8A8;
+		int handle = on ? 0xFF7A4E24 : 0xFF6A6A6A;
+		for (int row = 0; row < PICKAXE.length; row++) {
+			for (int col = 0; col < PICKAXE[row].length(); col++) {
+				char c = PICKAXE[row].charAt(col);
+				if (c != '.') {
+					context.fill(x + col, y + row, x + col + 1, y + row + 1, c == 'P' ? head : handle);
+				}
+			}
+		}
 	}
 
 	/** Tab kecil di tepi kanan panel utama untuk menyembunyikan / menampilkan dock modul. */

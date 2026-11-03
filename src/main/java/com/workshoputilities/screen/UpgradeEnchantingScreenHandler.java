@@ -36,7 +36,7 @@ import java.util.Optional;
  * Setiap Upgrade Book yang dipakai juga memakan {@link #LEVEL_COST_PER_BOOK} level XP dari pemain (kecuali mode Creative).
  * Bila syarat belum terpenuhi (XP atau bookshelf kurang), pemain mendapat pemberitahuan di action bar.
  */
-public class UpgradeEnchantingScreenHandler extends ScreenHandler {
+public class UpgradeEnchantingScreenHandler extends PanelScreenHandler {
 	public static final int REQUIRED_BOOKSHELVES = 20;
 
 	/** Biaya LEVEL XP untuk tiap Upgrade Book yang dipakai (15 level). Tidak berlaku di mode Creative. */
@@ -125,6 +125,8 @@ public class UpgradeEnchantingScreenHandler extends ScreenHandler {
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, HOTBAR_Y));
 		}
+		// Panel tambahan di samping GUI (backpack + equipment); ditaruh paling akhir agar nomor slot di atas tidak bergeser.
+		this.addPanelSlots(playerInventory, false);
 		this.addProperties(this.properties);
 		updateBookshelves();
 	}
@@ -221,6 +223,11 @@ public class UpgradeEnchantingScreenHandler extends ScreenHandler {
 
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+		// Slot equipment (armor, tangan kiri, Elytra): shift-click mengembalikan ke inventory seperti vanilla.
+		ItemStack equipMoved = this.quickMoveEquipment(player, slotIndex, INV_START, HOTBAR_END);
+		if (equipMoved != null) {
+			return equipMoved;
+		}
 		Slot slot = this.slots.get(slotIndex);
 		if (!slot.hasStack()) {
 			return ItemStack.EMPTY;

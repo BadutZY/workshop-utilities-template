@@ -26,7 +26,7 @@ import java.util.List;
  * input dikonsumsi (sejumlah hasil resep) dan seluruh isi grid menjadi item nyata yang bisa diambil.
  * Setelah grid kosong, preview baru muncul lagi bila input masih cukup.
  */
-public class UncraftingScreenHandler extends ScreenHandler {
+public class UncraftingScreenHandler extends PanelScreenHandler {
 	private static final int OUT_START = 1;
 	private static final int OUT_END = 10;
 	private static final int INV_START = 10;
@@ -81,6 +81,8 @@ public class UncraftingScreenHandler extends ScreenHandler {
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
 		}
+		// Panel tambahan di samping GUI (backpack); ditaruh paling akhir agar nomor slot di atas tidak bergeser.
+		this.addPanelSlots(playerInventory, false);
 		this.addProperties(this.properties);
 	}
 

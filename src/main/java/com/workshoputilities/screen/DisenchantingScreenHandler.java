@@ -38,7 +38,7 @@ import java.util.List;
  * Seperti Uncrafting Table, output awalnya preview. Mengambil salah satu output akan mengonsumsi
  * 1 item (dan 1 book bila ada), sedangkan output lainnya tetap bisa diambil.
  */
-public class DisenchantingScreenHandler extends ScreenHandler {
+public class DisenchantingScreenHandler extends PanelScreenHandler {
 	private static final int OUT_ITEM = 2;
 	private static final int OUT_BOOK = 3;
 	private static final int INV_START = 4;
@@ -97,6 +97,8 @@ public class DisenchantingScreenHandler extends ScreenHandler {
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
 		}
+		// Panel tambahan di samping GUI (backpack + equipment); ditaruh paling akhir agar nomor slot di atas tidak bergeser.
+		this.addPanelSlots(playerInventory, true);
 	}
 
 	/**
@@ -231,6 +233,11 @@ public class DisenchantingScreenHandler extends ScreenHandler {
 
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+		// Slot equipment (armor, tangan kiri, Elytra): shift-click mengembalikan ke inventory seperti vanilla.
+		ItemStack equipMoved = this.quickMoveEquipment(player, slotIndex, INV_START, HOTBAR_END);
+		if (equipMoved != null) {
+			return equipMoved;
+		}
 		Slot slot = this.slots.get(slotIndex);
 		if (!slot.hasStack()) {
 			return ItemStack.EMPTY;

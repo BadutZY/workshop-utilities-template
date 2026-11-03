@@ -25,7 +25,7 @@ import net.minecraft.sound.SoundEvents;
  * Output hanyalah preview: input baru dipakai saat output diambil (klik biasa maupun shift-click).
  * Perilakunya mengikuti Anvil: hanya perubahan slot input yang memicu penghitungan ulang hasil.
  */
-public class UpgradeTableScreenHandler extends ScreenHandler {
+public class UpgradeTableScreenHandler extends PanelScreenHandler {
 	/** Posisi slot (koordinat item di dalam GUI). Harus sama dengan texture GUI (tools/generate_upgrade_table_textures.py). */
 	public static final int TARGET_X = 30;
 	public static final int TARGET_Y = 22;
@@ -100,6 +100,8 @@ public class UpgradeTableScreenHandler extends ScreenHandler {
 		for (int col = 0; col < 9; col++) {
 			this.addSlot(new Slot(playerInventory, col, 8 + col * 18, 142));
 		}
+		// Panel tambahan di samping GUI (backpack + equipment); ditaruh paling akhir agar nomor slot di atas tidak bergeser.
+		this.addPanelSlots(playerInventory, true);
 	}
 
 	/** Enchanted book buatan mod atau bahan upgrade Backpack (iron/gold ingot, diamond, netherite ingot). */
@@ -167,6 +169,11 @@ public class UpgradeTableScreenHandler extends ScreenHandler {
 
 	@Override
 	public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+		// Slot equipment (armor, tangan kiri, Elytra): shift-click mengembalikan ke inventory seperti vanilla.
+		ItemStack equipMoved = this.quickMoveEquipment(player, slotIndex, INV_START, HOTBAR_END);
+		if (equipMoved != null) {
+			return equipMoved;
+		}
 		Slot slot = this.slots.get(slotIndex);
 		if (!slot.hasStack()) {
 			return ItemStack.EMPTY;

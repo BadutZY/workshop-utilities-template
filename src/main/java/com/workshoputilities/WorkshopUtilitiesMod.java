@@ -22,6 +22,7 @@ public class WorkshopUtilitiesMod implements ModInitializer {
 		ModBlockEntities.init();
 		ModItemGroups.init();
 		ModScreenHandlers.init();
+		ModRecipes.init();
 		InfiniteDurabilityRepair.init();
 		EnderBlind.init();
 		ToolEnchantments.init();

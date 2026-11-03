@@ -3,6 +3,27 @@ package com.workshoputilities.client.compat.rei;
 import com.workshoputilities.ModBlocks;
 import com.workshoputilities.ModItems;
 import com.workshoputilities.client.BackpackScreen;
+import com.workshoputilities.client.PanelController;
+import com.workshoputilities.client.PanelHandledScreen;
+import net.minecraft.client.gui.screen.ingame.CraftingScreen;
+import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.SmokerScreen;
+import net.minecraft.client.gui.screen.ingame.AnvilScreen;
+import net.minecraft.client.gui.screen.ingame.SmithingScreen;
+import net.minecraft.client.gui.screen.ingame.GrindstoneScreen;
+import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
+import net.minecraft.client.gui.screen.ingame.LoomScreen;
+import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
+import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
+import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
+import net.minecraft.client.gui.screen.ingame.CrafterScreen;
+import net.minecraft.client.gui.screen.ingame.Generic3x3ContainerScreen;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
+import net.minecraft.client.gui.screen.ingame.HopperScreen;
+import net.minecraft.client.gui.screen.ingame.BeaconScreen;
+import net.minecraft.client.gui.screen.ingame.MerchantScreen;
+import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import com.workshoputilities.client.UncraftingScreen;
 import com.workshoputilities.client.DisenchantingScreen;
 import com.workshoputilities.client.UpgradeEnchantingScreen;
@@ -124,6 +145,33 @@ public class ArcaneReiPlugin implements REIClientPlugin {
 		registry.registerContainerClickArea(new Rectangle(101, 37, 22, 15), UpgradeTableScreen.class, UPGRADE_ENCHANT, UPGRADE_BACKPACK);
 		registry.registerContainerClickArea(new Rectangle(140, 45, 10, 16), UpgradeEnchantingScreen.class, UPGRADE_BOOK);
 
+		// Panel backpack + equipment di samping GUI block juga ada di luar panel utama.
+		registry.exclusionZones().register(UncraftingScreen.class, screen -> panelZones(screen));
+		registry.exclusionZones().register(DisenchantingScreen.class, screen -> panelZones(screen));
+		registry.exclusionZones().register(UpgradeTableScreen.class, screen -> panelZones(screen));
+		registry.exclusionZones().register(UpgradeEnchantingScreen.class, screen -> panelZones(screen));
+
+		// Panel backpack (+ equipment) yang ditempel ke GUI block vanilla.
+		registry.exclusionZones().register(CraftingScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(FurnaceScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(BlastFurnaceScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(SmokerScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(AnvilScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(SmithingScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(GrindstoneScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(StonecutterScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(LoomScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(CartographyTableScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(EnchantmentScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(BrewingStandScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(CrafterScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(Generic3x3ContainerScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(HopperScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(GenericContainerScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(ShulkerBoxScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(MerchantScreen.class, screen -> vanillaZones(screen));
+		registry.exclusionZones().register(BeaconScreen.class, screen -> vanillaZones(screen));
+
 		// Dock modul Backpack ada di luar panel utama, jadi daftarkan sebagai exclusion zone agar daftar item REI tidak menimpanya.
 		registry.exclusionZones().register(BackpackScreen.class, screen -> {
 			List<Rectangle> zones = new ArrayList<>();
@@ -132,5 +180,21 @@ public class ArcaneReiPlugin implements REIClientPlugin {
 			}
 			return zones;
 		});
+	}
+
+	private static List<Rectangle> vanillaZones(Object screen) {
+		List<Rectangle> zones = new ArrayList<>();
+		for (int[] area : PanelController.vanillaAreas(screen)) {
+			zones.add(new Rectangle(area[0], area[1], area[2], area[3]));
+		}
+		return zones;
+	}
+
+	private static List<Rectangle> panelZones(Object screen) {
+		List<Rectangle> zones = new ArrayList<>();
+		for (int[] area : ((PanelHandledScreen<?>) screen).extraAreas()) {
+			zones.add(new Rectangle(area[0], area[1], area[2], area[3]));
+		}
+		return zones;
 	}
 }

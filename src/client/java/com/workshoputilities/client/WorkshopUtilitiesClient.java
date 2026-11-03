@@ -15,6 +15,9 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.util.InputUtil;
@@ -53,6 +56,17 @@ public class WorkshopUtilitiesClient implements ClientModInitializer {
 			HandledScreens.register(ModScreenHandlers.backpack(tier), BackpackScreen::new);
 		}
 		BlockEntityRendererFactories.register(ModBlockEntities.UPGRADE_ENCHANTING_TABLE, UpgradeEnchantingTableRenderer::new);
+
+		// Roda mouse di panel Backpack pada GUI block vanilla (Crafting Table, Furnace, Anvil, dst.).
+		ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
+			if (screen instanceof HandledScreen<?> && screen instanceof PanelScreenAccess access) {
+				PanelController controller = access.workshop_utilities$getPanelController();
+				if (controller != null) {
+					ScreenMouseEvents.allowMouseScroll(screen).register((s, mouseX, mouseY, horizontalAmount, verticalAmount) ->
+							!controller.scrolled(mouseX, mouseY, verticalAmount));
+				}
+			}
+		});
 
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			UnlimitedScope.reset();

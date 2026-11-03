@@ -20,9 +20,18 @@ import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.inventory.CraftingResultInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.BrushItem;
+import net.minecraft.item.FishingRodItem;
+import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.MaceItem;
+import net.minecraft.item.RangedWeaponItem;
+import net.minecraft.item.ShearsItem;
+import net.minecraft.item.ShieldItem;
+import net.minecraft.item.ToolItem;
+import net.minecraft.item.TridentItem;
 import net.minecraft.recipe.AbstractCookingRecipe;
 import net.minecraft.recipe.CraftingRecipe;
 import net.minecraft.recipe.RecipeEntry;
@@ -65,8 +74,10 @@ import java.util.Optional;
  * hasil), dan modul Uncrafting (1 slot input + 9 slot hasil, perilakunya sama dengan Uncrafting Table). Slot tambahan
  * hanya aktif bila modulnya terpasang; posisinya diatur oleh BackpackScreen.
  *
- * Slot modul samping (kiri GUI) untuk Bed Module ada paling akhir setelah slot hasil Uncrafting; tombol Sleep
- * ({@link #BUTTON_SLEEP}) melewati malam tanpa bed dan tanpa mengubah spawn point.
+ * Slot modul samping (kiri GUI) ada paling akhir setelah slot hasil Uncrafting: slot 0 untuk Bed Module (tombol Sleep,
+ * {@link #BUTTON_SLEEP}, melewati malam tanpa bed dan tanpa mengubah spawn point) dan slot 1 untuk Tools Holder Module,
+ * disusul {@link BackpackModuleData#TOOL_SLOTS} slot isi Tools Holder (tools, senjata, dan sejenisnya) yang bisa
+ * ditampilkan / disembunyikan lewat tombol {@link #BUTTON_TOOLS_TOGGLE}.
  *
  * Isi tas disimpan langsung ke ItemStack tas (custom_data) setiap ada perubahan, jadi tidak ada data yang hilang
  * walau game ditutup paksa. Slot tempat tas yang sedang dibuka dikunci (tidak bisa diambil / dipindah) dan
@@ -89,6 +100,8 @@ public class BackpackScreenHandler extends ScreenHandler {
 	public static final int BUTTON_UNCRAFT_NEXT_10 = 8;
 	/** Tombol tidur modul Bed: lewati malam sampai pagi tanpa bed, spawn point tidak berubah. */
 	public static final int BUTTON_SLEEP = 9;
+	/** Tombol modul Tools Holder: tampilkan / sembunyikan 7 slot tools. Statusnya disimpan di tas. */
+	public static final int BUTTON_TOOLS_TOGGLE = 10;
 
 	public static final int MODULE_COUNT = BackpackModuleData.MODULES;
 	public static final int TYPE_CRAFTING = 0;
@@ -115,8 +128,12 @@ public class BackpackScreenHandler extends ScreenHandler {
 	// ---- modul tas
 	/** Isi 4 slot modul. */
 	private final SimpleInventory modules;
-	/** Slot modul samping di kiri GUI (hanya Bed Module). */
+	/** Slot modul samping di kiri GUI: [0] Bed Module, [1] Tools Holder Module. */
 	private final SimpleInventory sideModules;
+	/** Isi Tools Holder Module: 7 slot untuk tools, senjata, dan sejenisnya. */
+	private final SimpleInventory tools;
+	/** [0] = 1 bila slot tools disembunyikan, 0 bila ditampilkan (bawaan). Disinkronkan ke client dan disimpan di tas. */
+	private final PropertyDelegate toolsProps = new ArrayPropertyDelegate(1);
 	/** 3 furnace x (input, bahan bakar, hasil). */
 	private final SimpleInventory smelt;
 	private final CraftingInventory craftGrid = new CraftingInventory(this, 3, 3);
@@ -180,6 +197,7 @@ public class BackpackScreenHandler extends ScreenHandler {
 
 		this.modules = new SimpleInventory(MODULE_COUNT);
 		this.sideModules = new SimpleInventory(BackpackModuleData.SIDE_MODULES);
+		this.tools = new SimpleInventory(BackpackModuleData.TOOL_SLOTS);
 		this.smelt = new SimpleInventory(FURNACES * 3) {
 			@Override
 			public void setStack(int slot, ItemStack stack) {
@@ -200,6 +218,10 @@ public class BackpackScreenHandler extends ScreenHandler {
 			for (int i = 0; i < BackpackModuleData.SIDE_MODULES; i++) {
 				this.sideModules.setStack(i, state.items.get(BackpackModuleData.sideIndex(i)));
 			}
+			for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+				this.tools.setStack(i, state.items.get(BackpackModuleData.toolIndex(i)));
+			}
+			this.toolsProps.set(0, state.toolsShown ? 0 : 1);
 			for (int i = 0; i < FURNACES * 3; i++) {
 				this.smelt.setStack(i, state.items.get(BackpackModuleData.smeltIndex(i)));
 			}
@@ -214,6 +236,11 @@ public class BackpackScreenHandler extends ScreenHandler {
 				}
 			});
 			this.sideModules.addListener(sender -> {
+				if (!this.bulk && !this.simulating) {
+					saveToStack();
+				}
+			});
+			this.tools.addListener(sender -> {
 				if (!this.bulk && !this.simulating) {
 					saveToStack();
 				}
@@ -259,11 +286,16 @@ public class BackpackScreenHandler extends ScreenHandler {
 		for (int i = 0; i < 9; i++) {
 			this.addSlot(new UncraftOutputSlot(this.uncraftOutput, i));
 		}
-		// Slot modul samping (kiri GUI): paling akhir agar indeks slot lain tidak bergeser. Lihat bedSlot().
-		this.addSlot(new SideModuleSlot(this.sideModules, 0));
+		// Slot modul samping (kiri GUI): paling akhir agar indeks slot lain tidak bergeser. Lihat bedSlot() dan toolsHolderSlot().
+		this.addSlot(new SideModuleSlot(this.sideModules, 0, ModItems.BED_MODULE));
+		this.addSlot(new SideModuleSlot(this.sideModules, 1, ModItems.TOOLS_HOLDER_MODULE));
+		for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+			this.addSlot(new ToolSlot(this.tools, i));
+		}
 		this.addProperties(this.properties);
 		this.addProperties(this.smeltProps);
 		this.addProperties(this.uncraftProps);
+		this.addProperties(this.toolsProps);
 
 		// Susul smelting yang berjalan selagi tas ditutup (server saja).
 		tickSmelting();
@@ -327,6 +359,61 @@ public class BackpackScreenHandler extends ScreenHandler {
 	/** True bila Bed Module terpasang di slot modul samping. */
 	public boolean hasBedModule() {
 		return this.sideModules.getStack(0).isOf(ModItems.BED_MODULE);
+	}
+
+	/** Slot modul samping untuk Tools Holder Module (di bawah slot Bed Module). */
+	public int toolsHolderSlot() {
+		return bedSlot() + 1;
+	}
+
+	/** Slot isi Tools Holder ke-{@code index} (0..{@link BackpackModuleData#TOOL_SLOTS}-1). */
+	public int toolSlot(int index) {
+		return toolsHolderSlot() + 1 + index;
+	}
+
+	/** True bila indeks slot handler {@code slotIndex} adalah salah satu slot isi Tools Holder. */
+	public boolean isToolSlot(int slotIndex) {
+		return slotIndex >= toolSlot(0) && slotIndex < toolSlot(BackpackModuleData.TOOL_SLOTS);
+	}
+
+	/** True bila Tools Holder Module terpasang di slot modul samping. */
+	public boolean hasToolsHolder() {
+		return this.sideModules.getStack(1).isOf(ModItems.TOOLS_HOLDER_MODULE);
+	}
+
+	/** True bila slot isi Tools Holder sedang ditampilkan (pilihan pemain; hanya berarti bila modulnya terpasang). */
+	public boolean toolsShown() {
+		return this.toolsProps.get(0) == 0;
+	}
+
+	/** Jumlah slot Tools Holder yang terisi (untuk label "3/7"). */
+	public int toolsUsed() {
+		int used = 0;
+		for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+			if (!this.tools.getStack(i).isEmpty()) {
+				used++;
+			}
+		}
+		return used;
+	}
+
+	/** Tools Holder tidak boleh dilepas selama slot isinya masih berisi item. */
+	public boolean toolsBusy() {
+		return toolsUsed() > 0;
+	}
+
+	/** Item yang boleh masuk slot Tools Holder: alat (pickaxe, axe, shovel, hoe), pedang, busur / crossbow, trident, mace, perisai, pancing, dan alat sejenis. */
+	public static boolean isHoldableTool(ItemStack stack) {
+		Item item = stack.getItem();
+		return item instanceof ToolItem || item instanceof RangedWeaponItem || item instanceof TridentItem
+				|| item instanceof MaceItem || item instanceof ShieldItem || item instanceof FishingRodItem
+				|| item instanceof ShearsItem || item instanceof FlintAndSteelItem || item instanceof BrushItem;
+	}
+
+	private void toggleTools() {
+		if (hasToolsHolder()) {
+			this.toolsProps.set(0, toolsShown() ? 1 : 0);
+		}
 	}
 
 	/** Indeks resep Uncrafting yang sedang dipilih (0 based). */
@@ -449,6 +536,10 @@ public class BackpackScreenHandler extends ScreenHandler {
 		for (int i = 0; i < BackpackModuleData.SIDE_MODULES; i++) {
 			state.items.set(BackpackModuleData.sideIndex(i), this.sideModules.getStack(i));
 		}
+		for (int i = 0; i < BackpackModuleData.TOOL_SLOTS; i++) {
+			state.items.set(BackpackModuleData.toolIndex(i), this.tools.getStack(i));
+		}
+		state.toolsShown = toolsShown();
 		for (int i = 0; i < FURNACES * 3; i++) {
 			state.items.set(BackpackModuleData.smeltIndex(i), this.smelt.getStack(i));
 		}
@@ -481,6 +572,7 @@ public class BackpackScreenHandler extends ScreenHandler {
 					}
 				}
 				case BUTTON_SLEEP -> sleepThroughNight(player);
+				case BUTTON_TOOLS_TOGGLE -> toggleTools();
 				default -> {
 					return false;
 				}
@@ -756,7 +848,8 @@ public class BackpackScreenHandler extends ScreenHandler {
 	@Override
 	public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
 		if (slot.inventory == this.craftResult || slot instanceof UncraftOutputSlot
-				|| (slot instanceof SmeltSlot smeltSlot && smeltSlot.role == 2)) {
+				|| (slot instanceof SmeltSlot smeltSlot && smeltSlot.role == 2)
+				|| (slot instanceof ToolSlot && !(hasToolsHolder() && toolsShown()))) {
 			return false;
 		}
 		return super.canInsertIntoSlot(stack, slot);
@@ -1169,15 +1262,43 @@ public class BackpackScreenHandler extends ScreenHandler {
 		}
 	}
 
-	/** Slot modul samping (kiri GUI): hanya Bed Module, satu buah. Boleh diambil kapan saja. */
-	private static class SideModuleSlot extends Slot {
-		SideModuleSlot(Inventory inventory, int index) {
+	/**
+	 * Slot modul samping (kiri GUI): satu modul tertentu (Bed Module atau Tools Holder Module), satu buah.
+	 * Bed Module boleh diambil kapan saja; Tools Holder Module tidak bisa dilepas selama slot tools-nya masih berisi.
+	 */
+	private class SideModuleSlot extends Slot {
+		private final Item accepts;
+
+		SideModuleSlot(Inventory inventory, int index, Item accepts) {
+			super(inventory, index, 0, 0);
+			this.accepts = accepts;
+		}
+
+		@Override
+		public boolean canInsert(ItemStack stack) {
+			return stack.isOf(this.accepts);
+		}
+
+		@Override
+		public int getMaxItemCount() {
+			return 1;
+		}
+
+		@Override
+		public boolean canTakeItems(PlayerEntity player) {
+			return this.accepts != ModItems.TOOLS_HOLDER_MODULE || !toolsBusy();
+		}
+	}
+
+	/** Slot isi Tools Holder: hanya tools / senjata / sejenisnya, satu item per slot, dan hanya aktif bila modulnya terpasang. */
+	private class ToolSlot extends Slot {
+		ToolSlot(Inventory inventory, int index) {
 			super(inventory, index, 0, 0);
 		}
 
 		@Override
 		public boolean canInsert(ItemStack stack) {
-			return stack.isOf(ModItems.BED_MODULE);
+			return hasToolsHolder() && isHoldableTool(stack);
 		}
 
 		@Override

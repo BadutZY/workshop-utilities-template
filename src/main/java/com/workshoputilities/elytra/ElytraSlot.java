@@ -20,7 +20,12 @@ public class ElytraSlot extends Slot {
 	private final PlayerEntity owner;
 
 	public ElytraSlot(ElytraSlotInventory inventory, PlayerEntity owner) {
-		super(inventory, 0, X, Y);
+		this(inventory, owner, X, Y);
+	}
+
+	/** Slot Elytra di posisi lain (dipakai panel equipment di Upgrade Table, Dis-Enchanting Table, dan Upgrade Enchanting Table). */
+	public ElytraSlot(ElytraSlotInventory inventory, PlayerEntity owner, int x, int y) {
+		super(inventory, 0, x, y);
 		this.owner = owner;
 	}
 

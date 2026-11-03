@@ -4,6 +4,27 @@ import com.workshoputilities.ModBlocks;
 import com.workshoputilities.ModItems;
 import com.workshoputilities.client.BackpackScreen;
 import com.workshoputilities.client.DisenchantingScreen;
+import com.workshoputilities.client.PanelController;
+import com.workshoputilities.client.PanelHandledScreen;
+import net.minecraft.client.gui.screen.ingame.CraftingScreen;
+import net.minecraft.client.gui.screen.ingame.FurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.BlastFurnaceScreen;
+import net.minecraft.client.gui.screen.ingame.SmokerScreen;
+import net.minecraft.client.gui.screen.ingame.AnvilScreen;
+import net.minecraft.client.gui.screen.ingame.SmithingScreen;
+import net.minecraft.client.gui.screen.ingame.GrindstoneScreen;
+import net.minecraft.client.gui.screen.ingame.StonecutterScreen;
+import net.minecraft.client.gui.screen.ingame.LoomScreen;
+import net.minecraft.client.gui.screen.ingame.CartographyTableScreen;
+import net.minecraft.client.gui.screen.ingame.EnchantmentScreen;
+import net.minecraft.client.gui.screen.ingame.BrewingStandScreen;
+import net.minecraft.client.gui.screen.ingame.CrafterScreen;
+import net.minecraft.client.gui.screen.ingame.Generic3x3ContainerScreen;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
+import net.minecraft.client.gui.screen.ingame.HopperScreen;
+import net.minecraft.client.gui.screen.ingame.BeaconScreen;
+import net.minecraft.client.gui.screen.ingame.MerchantScreen;
+import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
 import com.workshoputilities.client.UncraftingScreen;
 import com.workshoputilities.client.UpgradeEnchantingScreen;
 import com.workshoputilities.client.UpgradeTableScreen;
@@ -108,6 +129,33 @@ public class ArcaneJeiPlugin implements IModPlugin {
 		registration.addRecipeClickArea(UpgradeTableScreen.class, 101, 37, 22, 15, UPGRADE_ENCHANT, UPGRADE_BACKPACK);
 		registration.addRecipeClickArea(UpgradeEnchantingScreen.class, 140, 45, 10, 16, UPGRADE_BOOK);
 
+		// Panel backpack + equipment di samping GUI block juga ada di luar panel utama.
+		registration.addGuiContainerHandler(UncraftingScreen.class, ArcaneJeiPlugin.<UncraftingScreen>panelAreas());
+		registration.addGuiContainerHandler(DisenchantingScreen.class, ArcaneJeiPlugin.<DisenchantingScreen>panelAreas());
+		registration.addGuiContainerHandler(UpgradeTableScreen.class, ArcaneJeiPlugin.<UpgradeTableScreen>panelAreas());
+		registration.addGuiContainerHandler(UpgradeEnchantingScreen.class, ArcaneJeiPlugin.<UpgradeEnchantingScreen>panelAreas());
+
+		// Panel backpack (+ equipment) yang ditempel ke GUI block vanilla.
+		registration.addGuiContainerHandler(CraftingScreen.class, ArcaneJeiPlugin.<CraftingScreen>vanillaAreas());
+		registration.addGuiContainerHandler(FurnaceScreen.class, ArcaneJeiPlugin.<FurnaceScreen>vanillaAreas());
+		registration.addGuiContainerHandler(BlastFurnaceScreen.class, ArcaneJeiPlugin.<BlastFurnaceScreen>vanillaAreas());
+		registration.addGuiContainerHandler(SmokerScreen.class, ArcaneJeiPlugin.<SmokerScreen>vanillaAreas());
+		registration.addGuiContainerHandler(AnvilScreen.class, ArcaneJeiPlugin.<AnvilScreen>vanillaAreas());
+		registration.addGuiContainerHandler(SmithingScreen.class, ArcaneJeiPlugin.<SmithingScreen>vanillaAreas());
+		registration.addGuiContainerHandler(GrindstoneScreen.class, ArcaneJeiPlugin.<GrindstoneScreen>vanillaAreas());
+		registration.addGuiContainerHandler(StonecutterScreen.class, ArcaneJeiPlugin.<StonecutterScreen>vanillaAreas());
+		registration.addGuiContainerHandler(LoomScreen.class, ArcaneJeiPlugin.<LoomScreen>vanillaAreas());
+		registration.addGuiContainerHandler(CartographyTableScreen.class, ArcaneJeiPlugin.<CartographyTableScreen>vanillaAreas());
+		registration.addGuiContainerHandler(EnchantmentScreen.class, ArcaneJeiPlugin.<EnchantmentScreen>vanillaAreas());
+		registration.addGuiContainerHandler(BrewingStandScreen.class, ArcaneJeiPlugin.<BrewingStandScreen>vanillaAreas());
+		registration.addGuiContainerHandler(CrafterScreen.class, ArcaneJeiPlugin.<CrafterScreen>vanillaAreas());
+		registration.addGuiContainerHandler(Generic3x3ContainerScreen.class, ArcaneJeiPlugin.<Generic3x3ContainerScreen>vanillaAreas());
+		registration.addGuiContainerHandler(HopperScreen.class, ArcaneJeiPlugin.<HopperScreen>vanillaAreas());
+		registration.addGuiContainerHandler(GenericContainerScreen.class, ArcaneJeiPlugin.<GenericContainerScreen>vanillaAreas());
+		registration.addGuiContainerHandler(ShulkerBoxScreen.class, ArcaneJeiPlugin.<ShulkerBoxScreen>vanillaAreas());
+		registration.addGuiContainerHandler(MerchantScreen.class, ArcaneJeiPlugin.<MerchantScreen>vanillaAreas());
+		registration.addGuiContainerHandler(BeaconScreen.class, ArcaneJeiPlugin.<BeaconScreen>vanillaAreas());
+
 		// Dock modul Backpack ada di luar panel utama; beri tahu JEI agar daftar itemnya tidak menimpa area ini.
 		registration.addGuiContainerHandler(BackpackScreen.class, new IGuiContainerHandler<BackpackScreen>() {
 			public List<Rect2i> getGuiExtraAreas(BackpackScreen screen) {
@@ -118,5 +166,31 @@ public class ArcaneJeiPlugin implements IModPlugin {
 				return areas;
 			}
 		});
+	}
+
+	/** Area panel samping yang ditempel ke GUI block vanilla. */
+	private static <T extends net.minecraft.client.gui.screen.ingame.HandledScreen<?>> IGuiContainerHandler<T> vanillaAreas() {
+		return new IGuiContainerHandler<T>() {
+			public List<Rect2i> getGuiExtraAreas(T screen) {
+				List<Rect2i> areas = new ArrayList<>();
+				for (int[] area : PanelController.vanillaAreas(screen)) {
+					areas.add(new Rect2i(area[0], area[1], area[2], area[3]));
+				}
+				return areas;
+			}
+		};
+	}
+
+	/** Area panel samping (tombol + panel backpack + panel equipment) untuk keempat GUI block. */
+	private static <T extends PanelHandledScreen<?>> IGuiContainerHandler<T> panelAreas() {
+		return new IGuiContainerHandler<T>() {
+			public List<Rect2i> getGuiExtraAreas(T screen) {
+				List<Rect2i> areas = new ArrayList<>();
+				for (int[] area : screen.extraAreas()) {
+					areas.add(new Rect2i(area[0], area[1], area[2], area[3]));
+				}
+				return areas;
+			}
+		};
 	}
 }

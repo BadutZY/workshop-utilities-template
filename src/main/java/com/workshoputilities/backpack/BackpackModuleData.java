@@ -13,7 +13,8 @@ import net.minecraft.util.collection.DefaultedList;
  * Data modul Backpack (Crafting Table, Furnace, Blast Furnace, Smoker) di custom_data milik ItemStack tas
  * (key "BackpackModules"), terpisah dari isi tas ("BackpackInventory").
  *
- * Yang disimpan: 5 slot modul + 1 slot modul samping (Bed Module) + 9 slot furnace (input / bahan bakar / hasil untuk 3 furnace), timer tiap furnace
+ * Yang disimpan: 5 slot modul + 2 slot modul samping (Bed Module dan Tools Holder Module) + 9 slot furnace (input / bahan bakar / hasil untuk 3 furnace),
+ * 7 slot isi Tools Holder, status tampil / sembunyi slot tools, timer tiap furnace
  * (burnTime, fuelTime, cookTime, cookTimeTotal), XP hasil smelting yang belum diambil, dan waktu dunia saat terakhir
  * disimpan. Waktu itu dipakai untuk menyusul smelting yang berjalan selagi tas ditutup (lihat BackpackScreenHandler).
  */
@@ -23,6 +24,7 @@ public final class BackpackModuleData {
 	private static final String TIMERS = "Timers";
 	private static final String XP = "Xp";
 	private static final String TIME = "Time";
+	private static final String TOOLS_SHOWN = "ToolsShown";
 
 	/** Jumlah slot modul: Crafting, Furnace, Blast Furnace, Smoker, dan Uncrafting. */
 	public static final int MODULES = 5;
@@ -33,9 +35,14 @@ public final class BackpackModuleData {
 	public static final int LEGACY_MODULES = 4;
 	public static final int FURNACES = 3;
 	public static final int SMELT_SLOTS = FURNACES * 3;
-	/** Slot modul samping (di kiri GUI, saat ini hanya Bed Module). Ditaruh PALING AKHIR agar data tas lama tetap utuh. */
-	public static final int SIDE_MODULES = 1;
-	public static final int TOTAL_ITEMS = MODULES + SMELT_SLOTS + SIDE_MODULES;
+	/**
+	 * Slot modul samping (di kiri GUI): slot 0 = Bed Module, slot 1 = Tools Holder Module. Ditaruh PALING AKHIR agar data
+	 * tas lama tetap utuh (tas lama hanya punya slot samping 0, indeks lainnya kosong).
+	 */
+	public static final int SIDE_MODULES = 2;
+	/** Jumlah slot isi Tools Holder Module (tools, senjata, dan sejenisnya). Ditaruh setelah slot modul samping. */
+	public static final int TOOL_SLOTS = 7;
+	public static final int TOTAL_ITEMS = MODULES + SMELT_SLOTS + SIDE_MODULES + TOOL_SLOTS;
 	public static final int TIMER_COUNT = FURNACES * 4;
 
 	private BackpackModuleData() {
@@ -51,6 +58,11 @@ public final class BackpackModuleData {
 		return MODULES + SMELT_SLOTS + cell;
 	}
 
+	/** Indeks di {@link State#items} untuk slot isi Tools Holder ke-{@code cell} (0..TOOL_SLOTS-1), setelah slot modul samping. */
+	public static int toolIndex(int cell) {
+		return MODULES + SMELT_SLOTS + SIDE_MODULES + cell;
+	}
+
 	/** Indeks di {@link State#items} untuk slot furnace ke-{@code slot} (0..SMELT_SLOTS-1: furnace x input/bahan bakar/hasil). */
 	public static int smeltIndex(int slot) {
 		return LEGACY_MODULES + slot;
@@ -62,6 +74,8 @@ public final class BackpackModuleData {
 		public final int[] timers = new int[TIMER_COUNT];
 		public final float[] xp = new float[FURNACES];
 		public long time = -1L;
+		/** Apakah slot isi Tools Holder ditampilkan di GUI (pilihan pemain lewat tombol di bawah modulnya; bawaan: tampil). */
+		public boolean toolsShown = true;
 	}
 
 	public static State load(ItemStack backpack, RegistryWrapper.WrapperLookup lookup) {
@@ -88,6 +102,9 @@ public final class BackpackModuleData {
 		}
 		if (tag.contains(TIME, NbtElement.LONG_TYPE)) {
 			state.time = tag.getLong(TIME);
+		}
+		if (tag.contains(TOOLS_SHOWN, NbtElement.BYTE_TYPE)) {
+			state.toolsShown = tag.getBoolean(TOOLS_SHOWN);
 		}
 		return state;
 	}
@@ -116,6 +133,7 @@ public final class BackpackModuleData {
 			}
 			tag.putIntArray(XP, xp);
 			tag.putLong(TIME, state.time);
+			tag.putBoolean(TOOLS_SHOWN, state.toolsShown);
 			root.put(KEY, tag);
 		}
 		if (root.isEmpty()) {

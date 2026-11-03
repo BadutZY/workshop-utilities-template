@@ -21,7 +21,10 @@
     "ServerPlayNetworkHandlerMixin",
     "PlayerBackpackSlotMixin",
     "PlayerHungerMixin",
-    "BlockDropsMixin"
+    "BlockDropsMixin",
+    "ScreenHandlerInvoker",
+    "ScreenHandlerPanelMixin",
+    "VanillaHandlerPanelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

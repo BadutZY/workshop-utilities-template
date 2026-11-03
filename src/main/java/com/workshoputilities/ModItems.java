@@ -62,6 +62,11 @@ public final class ModItems {
 			new LoreItem(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON),
 					"item.workshop_utilities.bed_module.tooltip"));
 
+	/** Modul Tools Holder: dipasang di slot modul samping di bawah Bed Module; menambah 7 slot untuk tools, senjata, dan sejenisnya. */
+	public static final Item TOOLS_HOLDER_MODULE = register("tools_holder_module",
+			new LoreItem(new Item.Settings().maxCount(1).rarity(Rarity.UNCOMMON),
+					"item.workshop_utilities.tools_holder_module.tooltip"));
+
 	/** Lima tier Backpack (Small, Normal, Medium, Big, Huge); lihat {@link BackpackTier}. */
 	private static final Map<BackpackTier, Item> BACKPACKS = new EnumMap<>(BackpackTier.class);
 

@@ -5,7 +5,6 @@ import com.workshoputilities.ModItems;
 import com.workshoputilities.WorkshopUtilitiesMod;
 import com.workshoputilities.screen.UpgradeEnchantingScreenHandler;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
@@ -37,7 +36,7 @@ import java.util.Optional;
  *   Teks nama selalu muat di dalam baris (otomatis dibungkus / diperkecil).
  *   Bila pilihan lebih banyak dari {@link #MAX_ROWS}, daftar bisa di-scroll dengan roda mouse (ada penunjuk scroll di tepi kanan panel).
  */
-public class UpgradeEnchantingScreen extends HandledScreen<UpgradeEnchantingScreenHandler> {
+public class UpgradeEnchantingScreen extends PanelHandledScreen<UpgradeEnchantingScreenHandler> {
 	private static final Identifier TEXTURE =
 			Identifier.of(WorkshopUtilitiesMod.MOD_ID, "textures/gui/container/upgrade_enchanting_table.png");
 
@@ -203,6 +202,8 @@ public class UpgradeEnchantingScreen extends HandledScreen<UpgradeEnchantingScre
 
 	@Override
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+		// Panel samping (backpack / equipment) digambar lebih dulu; texture GUI di bawah menutup sambungannya.
+		drawPanels(context);
 		context.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
 
 		// Ikon hantu pada slot kosong: Upgrade Book dan Upgrade Enchanted (input) serta enchanted book vanilla tanpa glint (output), dipudarkan.

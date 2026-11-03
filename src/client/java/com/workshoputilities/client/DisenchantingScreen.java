@@ -3,13 +3,12 @@ package com.workshoputilities.client;
 import com.workshoputilities.WorkshopUtilitiesMod;
 import com.workshoputilities.screen.DisenchantingScreenHandler;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class DisenchantingScreen extends HandledScreen<DisenchantingScreenHandler> {
+public class DisenchantingScreen extends PanelHandledScreen<DisenchantingScreenHandler> {
 	private static final Identifier TEXTURE =
 			Identifier.of(WorkshopUtilitiesMod.MOD_ID, "textures/gui/container/disenchanting_table.png");
 
@@ -24,6 +23,8 @@ public class DisenchantingScreen extends HandledScreen<DisenchantingScreenHandle
 
 	@Override
 	protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
+		// Panel samping (backpack / equipment) digambar lebih dulu; texture GUI di bawah menutup sambungannya.
+		drawPanels(context);
 		context.drawTexture(TEXTURE, this.x, this.y, 0, 0, this.backgroundWidth, this.backgroundHeight);
 		// Ikon book asli (vanilla) yang dipudarkan, hanya tampil saat slot book kosong dan pas di dalam slot.
 		if (this.handler.getSlot(BOOK_SLOT_INDEX).getStack().isEmpty()) {
